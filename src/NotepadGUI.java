@@ -13,16 +13,21 @@ public class NotepadGUI extends JFrame{
     private JButton sparaButton;
 
     public NotepadGUI() {
+
+        /* clear text area */
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textArea1.setText("");
+                if (JOptionPane.showConfirmDialog(null, "This will clear your written text. Do you want to continue?", "New", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0) {
+                    textArea1.setText("");
+                }
             }
         });
+        /* open a file and write contents to text area */
         öppnaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser("C:\\Users\\" + System.getProperty("user.name" + "\\Documents"));
+                JFileChooser fc = new JFileChooser();
                 if (fc.showOpenDialog(null) == fc.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
                     textArea1.setText("");
@@ -38,6 +43,7 @@ public class NotepadGUI extends JFrame{
                 }
             }
         });
+        /* save contents of text area to file */
         sparaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,7 +56,6 @@ public class NotepadGUI extends JFrame{
                             try {
                                 PrintWriter output = new PrintWriter(file);
                                 for (String line : textArea1.getText().split("\\n")) output.println(line);
-                                System.out.println(textArea1.getText());
                                 output.flush();
                             } catch (Exception ex) {
                                 System.out.println(ex);
